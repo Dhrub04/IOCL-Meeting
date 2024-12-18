@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOCL Meeting Booking System</title>
+    <link rel="stylesheet" href="stylemain.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Welcome Message -->
+        <h1>Welcome to IOCL Meeting Booking System</h1>
+        <p>Book your meeting seamlessly by selecting the type of meeting and filling the required details.</p>
+        
+        <!-- Dropdown for Meeting Type -->
+        <div class="meeting-type">
+            <label for="meetingType">Select Meeting Type:</label>
+            <select id="meetingType" onchange="showForm()">
+                <option value="" selected disabled>Select</option>
+                <option value="RBO">R.B.O.</option>
+                <option value="RSH">R.S.H.</option>
+            </select>
+        </div>
+
+        <!-- Meeting Details Form (Initially Hidden) -->
+        <div id="meetingForm" class="hidden">
+            <h3>Enter Meeting Details</h3>
+            <form id="meetingDetailsForm">
+                <!-- Meeting ID Section -->
+                <label for="meetingID">Meeting ID:</label>
+                <input type="text" id="meetingIDField" readonly required>
+
+                <button type="button" id="generateMeetingIDButton" onclick="generateMeetingID()">Click here to get the Meeting ID</button>
+
+                <label for="meetingDate">Date:</label>
+                <input type="date" id="meetingDate" required>
+                
+                <label for="meetingDesc">Meeting Description:</label>
+                <textarea id="meetingDesc" required></textarea>
+
+                <label for="meetingChair">Meeting Chaired By:</label>
+                <select id="meetingChair" onchange="showCGMOptions()">
+                    <option value="ED & RH">ED & RH</option>
+                    <option value="CGM">CGM</option>
+                    <option value="GM(HR)">GM(HR)</option>
+                    <option value="Others">Others</option>
+                </select>
+
+                <div id="cgmOptions" style="display:none;">
+                    <label for="cgmSubChair">Select Sub-Role:</label>
+                    <select id="cgmSubChair">
+                        <option value="TS & HSE">TS & HSE</option>
+                        <option value="Technical">Technical</option>
+                        <option value="Project">Project</option>
+                    </select>
+                </div>
+
+                <!-- Discussion Table for Point of Discussion and Target Date -->
+                <table id="discussionTable">
+                    <thead>
+                        <tr>
+                            <th>Point of Discussion</th>
+                            <th>Target Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><textarea id="meetingPoints" required></textarea></td>
+                            <td><input type="date" id="targetDate" required></td>
+                            <td><button type="button" class="remove-row-btn" onclick="removeRow(this)">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <button type="submit">Register Meeting</button>
+            </form>
+        </div>
+
+        <!-- Confirmation Message -->
+        <div id="confirmationMessage" class="hidden">
+            <p>Meeting has been successfully registered!</p>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
