@@ -7,76 +7,88 @@
     <link rel="stylesheet" href="stylemain.css">
 </head>
 <body>
+    <!-- Main Container -->
     <div class="container">
+        <!-- Welcome Message -->
         <h1>Welcome to IOCL Meeting Booking System</h1>
-        <p>Book your meeting seamlessly by selecting the type of meeting and filling in the required details.</p>
-
-        <!-- Meeting Type Selection -->
+        <p>Book your meeting seamlessly by selecting the type of meeting and filling the required details.</p>
+        
+        <!-- Dropdown for Meeting Type -->
         <div class="meeting-type">
             <label for="meetingType">Select Meeting Type:</label>
-            <select id="meetingType" onchange="showForm()" aria-label="Select Meeting Type">
+            <select id="meetingType" onchange="showForm()">
                 <option value="" selected disabled>Select</option>
                 <option value="RBO">R.B.O.</option>
                 <option value="RSH">R.S.H.</option>
             </select>
         </div>
 
-        <!-- Meeting Form -->
+        <!-- Meeting Details Form (Initially Hidden) -->
         <div id="meetingForm" class="hidden">
             <h3>Enter Meeting Details</h3>
             <form id="meetingDetailsForm">
-                <!-- Meeting ID -->
-                <label for="meetingIDField">Meeting ID:</label>
-                <input type="text" id="meetingIDField" placeholder="Click to generate Meeting ID" readonly required>
-                <button type="button" onclick="generateMeetingID()">Generate Meeting ID</button>
+                <!-- Meeting ID Section -->
+                <label for="meetingID">Meeting ID:</label>
+                <input type="text" id="meetingIDField" readonly required>
 
-                <!-- Date -->
-                <label for="meetingDate">Meeting Date:</label>
-                <input type="date" id="meetingDate" required aria-label="Select Meeting Date">
+                <button type="button" id="generateMeetingIDButton" onclick="generateMeetingID()">Click here to get the Meeting ID</button>
 
-                <!-- Description -->
+                <label for="meetingDate">Date:</label>
+                <input type="date" id="meetingDate" required>
+                
                 <label for="meetingDesc">Meeting Description:</label>
-                <textarea id="meetingDesc" placeholder="Enter a brief description of the meeting" required></textarea>
+                <textarea id="meetingDesc" required></textarea>
 
-                <!-- Chaired By -->
                 <label for="meetingChair">Meeting Chaired By:</label>
-                <select id="meetingChair" onchange="showCGMOptions()" aria-label="Select Chairperson">
-                    <option value="" selected disabled>Select</option>
+                <select id="meetingChair" onchange="showCGMOptions()">
                     <option value="ED & RH">ED & RH</option>
                     <option value="CGM">CGM</option>
                     <option value="GM(HR)">GM(HR)</option>
                     <option value="Others">Others</option>
                 </select>
 
-                <!-- CGM Sub-Role -->
-                <div id="cgmOptions" class="hidden">
+                <div id="cgmOptions" style="display:none;">
                     <label for="cgmSubChair">Select Sub-Role:</label>
-                    <select id="cgmSubChair" aria-label="Select Sub-Role for CGM">
+                    <select id="cgmSubChair">
                         <option value="TS & HSE">TS & HSE</option>
                         <option value="Technical">Technical</option>
                         <option value="Project">Project</option>
                     </select>
                 </div>
 
-                <!-- Discussion Table -->
-                <h4>Points of Discussion</h4>
+                <!-- Discussion Table for Point of Discussion and Target Date -->
                 <table id="discussionTable">
                     <thead>
-                        <tr>
-                            <th>Point of Discussion</th>
-                            <th>Target Date</th>
-                            <th>Action</th>
-                        </tr>
+                          <tr>
+                              <th>Point of Discussion</th>
+                              <th>Target Date</th>
+                              <th>Action</th>
+                          </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><textarea placeholder="Enter discussion point" required></textarea></td>
-                            <td><input type="date" required></td>
-                            <td><button type="button" onclick="removeRow(this)">Remove</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="button" onclick="addRow()">Add Row</button>
+           <tbody>
+            <tr>
+                <td>
+                    <div id="discussionContainer">
+                        <div id="discussionPoints">
+                            <ol id="pointsList"></ol> <!-- Ordered List for Bullet Points -->
+                            <input
+                                type="text"
+                                id="newPointInput"
+                                placeholder="Enter a discussion point"
+                                onkeypress="handlePointInput(event)"
+                            />
+                        </div>
+                        <!-- Small box beside the container -->
+                        <div id="sideBox">Add points</div>
+                    </div>
+                </td>
+                <td><input type="date" id="targetDate" required></td>
+                <td><button type="button" class="remove-row-btn" onclick="removeRow(this)">Remove</button></td>
+            </tr>
+            
+            </tbody>
+       </table>
+                
                 <button type="submit">Register Meeting</button>
             </form>
         </div>
