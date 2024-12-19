@@ -1,115 +1,84 @@
-﻿let meetingSerialNumber = 0; // Keeps track of the serial number for generating meeting IDs.
+﻿let meetingSerialNumber = 0;
 
+// Function to generate a unique Meeting ID
+function generateMeetingID() {
+    const currentYear = new Date().getFullYear();
+    meetingSerialNumber++;
+    const meetingID = `BGR/MEET/${currentYear}/${meetingSerialNumber}`;
+    document.getElementById("meetingIDField").value = meetingID;
+}
+
+// Function to show or hide the meeting details form based on the selected meeting type
 function showForm() {
     const meetingType = document.getElementById('meetingType').value;
     const meetingForm = document.getElementById('meetingForm');
     
     if (meetingType) {
         meetingForm.classList.remove('hidden');
+        setCurrentDate(); // Set the current date when the form is shown
     } else {
         meetingForm.classList.add('hidden');
     }
 }
 
-// Function to generate and display the Meeting ID
-function generateMeetingID() {
-    const currentYear = new Date().getFullYear(); // Get the current year
-    meetingSerialNumber++; // Increment serial number for the meeting
-
-    // Generate the Meeting ID
-    const meetingID = BGR/MEET/${currentYear}/${meetingSerialNumber};
-
-    // Display the Meeting ID in the input field
-    document.getElementById('meetingIDField').value = meetingID;
+// Function to set the current date in the Meeting Date field
+function setCurrentDate() {
+    const currentDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+    document.getElementById('meetingDate').value = currentDate; // Set it in the "Meeting Date" input field
 }
 
-// Function to handle the form submission
-document.getElementById('meetingDetailsForm').addEventListener('submit', async function (event) {
-    event.preventDefault(); // Prevent page reload
-
-    // Gather form data
-    const meetingData = {
-        meetingID: document.getElementById('meetingIDField').value,
-        meetingDate: document.getElementById('meetingDate').value,
-        meetingDesc: document.getElementById('meetingDesc').value,
-        meetingChair: document.getElementById('meetingChair').value,
-        meetingPoints: document.getElementById('meetingPoints').value,
-        targetDate: document.getElementById('targetDate').value,
-    };
-
-    try {
-        // Here, you can send the meeting data to your server via fetch.
-        console.log(meetingData);
-        
-        // Display a confirmation message
-        const confirmationMessage = document.getElementById('confirmationMessage');
-        confirmationMessage.classList.remove('hidden');
-        confirmationMessage.innerHTML = `
-            <p>Meeting has been successfully registered!</p>
-        `;
-    } catch (error) {
-        console.error('Error registering meeting:', error);
-        alert('Failed to register meeting');
-    }
-
-    // Clear the form
-    document.getElementById('meetingDetailsForm').reset();
-    document.getElementById('meetingForm').classList.add('hidden');
-});
-
-// Handle the dynamic dropdown for the 'CGM' selection (sub-roles)
-function showCGMOptions() {
-    const chairValue = document.getElementById('meetingChair').value;
-    const cgmOptions = document.getElementById('cgmOptions');
-
-    // If 'CGM' is selected, display the sub-role options
-    if (chairValue === 'CGM') {
-        cgmOptions.style.display = 'block';
-    } else {
-        cgmOptions.style.display = 'none';
-    }
+// Function to add a new row for discussion points
+function addRow() {
+    const tableBody = document.querySelector('#discussionTable tbody');
+    const currentDate = new Date().toISOString().split('T')[0]; // Get the current date for the "Target Date" field
+    
+    const row = `
+        <tr>
+            <td><textarea placeholder="Enter discussion point" required></textarea></td>
+            <td><input type="date" value="${currentDate}" required></td>
+            <td><input type="text" required></td>
+            <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+        </tr>`;
+    tableBody.insertAdjacentHTML('beforeend', row); // Insert the new row into the table
 }
 
-// Remove a row from the discussion table
+// Function to remove a row from the discussion points table
 function removeRow(button) {
-    const row = button.closest('tr');
-    row.remove();
+    button.closest('tr').remove();
 }
 
-// Add event listener to show/hide CGM options dynamically
-document.getElementById('meetingChair').addEventListener('change', showCGMOptions);
+// Handle the form submission
+document.getElementById('meetingDetailsForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-// Function to handle the "Enter" key press in the input field
-function handlePointInput(event) {
-    // Check if "Enter" is pressed and input is not empty
-    if (event.key === "Enter" && event.target.value.trim() !== "") {
-        addPoint(event.target.value.trim());
-        event.target.value = ""; // Clear the input field
-        event.preventDefault(); // Prevent form submission
-    }
-}
+    const meetingID = document.getElementById('meetingIDField').value;
+    const meetingDate = document.getElementById('meetingDate').value;
+    const meetingDesc = document.getElementById('meetingDesc').value;
+    const meetingChair = document.getElementById('meetingChair').value;
 
-// Function to add a new bullet point
-function addPoint(pointText) {
-    const pointsList = document.getElementById("pointsList"); // Ordered list container
+    const discussionPoints = [];
+    const rows = document.querySelectorAll('#discussionTable tbody tr');
+    rows.forEach(row => {
+        const pointDesc = row.querySelector('textarea').value;
+        const targetDate = row.querySelector('input[type="date"]').value;
+        const fpr = row.querySelector('input[type="text"]').value;
+        discussionPoints.push({ pointDesc, targetDate, fpr });
+    });
 
-    // Create a new list item
-    const listItem = document.createElement("li");
-    listItem.textContent = pointText; // Set the point text
-
-    // Add an "Add Next" button to the list item
-    const addNextButton = document.createElement("button");
-    addNextButton.textContent = "Add Next";
-    addNextButton.style.marginLeft = "10px";
-    addNextButton.onclick = () => {
-        const newInput = document.getElementById("newPointInput");
-        newInput.focus(); // Focus back to the input field for adding the next point
+    const meetingData = {
+        meetingID,
+        meetingDate,
+        meetingDesc,
+        meetingChair,
+        discussionPoints
     };
 
-    listItem.appendChild(addNextButton); // Append the button to the list item
-    pointsList.appendChild(listItem); // Append the list item to the ordered list
-}
-
-    document.getElementById("sideBox").addEventListener("click", function () {
-    alert("This box contains additional information about discussion points.");
+    console.log('Meeting Data Submitted:', meetingData);
+    
+    // Optionally, reset the form after submission
+    document.getElementById('meetingDate').value = '';
+    document.getElementById('meetingDesc').value = '';
+    document.getElementById('meetingChair').value = 'ED & RH'; // Default option
+    document.querySelectorAll('#discussionTable tbody tr').forEach(row => row.remove());
+    document.getElementById('meetingForm').classList.add('hidden');
 });

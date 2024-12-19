@@ -7,97 +7,91 @@
     <link rel="stylesheet" href="stylemain.css">
 </head>
 <body>
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Welcome Message -->
-        <h1>Welcome to IOCL Meeting Booking System</h1>
-        <p>Book your meeting seamlessly by selecting the type of meeting and filling the required details.</p>
-        
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <img src="image/logo.gif" alt="IOCL Logo" class="logo">
+            <h1>IOCL Meeting Booking System</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <p>Book your meeting seamlessly by selecting the type of meeting and filling in the required details.</p>
+
         <!-- Dropdown for Meeting Type -->
-        <div class="meeting-type">
-            <label for="meetingType">Select Meeting Type:</label>
-            <select id="meetingType" onchange="showForm()">
-                <option value="" selected disabled>Select</option>
-                <option value="RBO">R.B.O.</option>
-                <option value="RSH">R.S.H.</option>
-            </select>
-        </div>
-
-        <!-- Meeting Details Form (Initially Hidden) -->
-        <div id="meetingForm" class="hidden">
-            <h3>Enter Meeting Details</h3>
-            <form id="meetingDetailsForm">
-                <!-- Meeting ID Section -->
-                <label for="meetingID">Meeting ID:</label>
-                <input type="text" id="meetingIDField" readonly required>
-
-                <button type="button" id="generateMeetingIDButton" onclick="generateMeetingID()">Click here to get the Meeting ID</button>
-
-                <label for="meetingDate">Date:</label>
-                <input type="date" id="meetingDate" required>
-                
-                <label for="meetingDesc">Meeting Description:</label>
-                <textarea id="meetingDesc" required></textarea>
-
-                <label for="meetingChair">Meeting Chaired By:</label>
-                <select id="meetingChair" onchange="showCGMOptions()">
-                    <option value="ED & RH">ED & RH</option>
-                    <option value="CGM">CGM</option>
-                    <option value="GM(HR)">GM(HR)</option>
-                    <option value="Others">Others</option>
+        <div class="form-container">
+            <div class="meeting-type">
+                <label for="meetingType">Select Meeting Type:</label>
+                <select id="meetingType" onchange="showForm()">
+                    <option value="" selected disabled>Select</option>
+                    <option value="RBO">R.B.O.</option>
+                    <option value="RSH">R.S.H.</option>
                 </select>
+            </div>
 
-                <div id="cgmOptions" style="display:none;">
-                    <label for="cgmSubChair">Select Sub-Role:</label>
-                    <select id="cgmSubChair">
-                        <option value="TS & HSE">TS & HSE</option>
-                        <option value="Technical">Technical</option>
-                        <option value="Project">Project</option>
-                    </select>
-                </div>
-
-                <!-- Discussion Table for Point of Discussion and Target Date -->
-                <table id="discussionTable">
-                    <thead>
-                          <tr>
-                              <th>Point of Discussion</th>
-                              <th>Target Date</th>
-                              <th>Action</th>
-                          </tr>
-                    </thead>
-           <tbody>
-            <tr>
-                <td>
-                    <div id="discussionContainer">
-                        <div id="discussionPoints">
-                            <ol id="pointsList"></ol> <!-- Ordered List for Bullet Points -->
-                            <input
-                                type="text"
-                                id="newPointInput"
-                                placeholder="Enter a discussion point"
-                                onkeypress="handlePointInput(event)"
-                            />
-                        </div>
-                        <!-- Small box beside the container -->
-                        <div id="sideBox">Add points</div>
+            <!-- Meeting Details Form -->
+            <div id="meetingForm" class="hidden">
+                <h3>Enter Meeting Details</h3>
+                <form id="meetingDetailsForm">
+                    <div class="form-group">
+                        <label for="meetingID">Meeting ID:</label>
+                        <input type="text" id="meetingIDField" readonly required>
+                        <button type="button" onclick="generateMeetingID()">Generate Meeting ID</button>
                     </div>
-                </td>
-                <td><input type="date" id="targetDate" required></td>
-                <td><button type="button" class="remove-row-btn" onclick="removeRow(this)">Remove</button></td>
-            </tr>
-            
-            </tbody>
-       </table>
-                
-                <button type="submit">Register Meeting</button>
-            </form>
-        </div>
 
-        <!-- Confirmation Message -->
-        <div id="confirmationMessage" class="hidden">
-            <p>Meeting has been successfully registered!</p>
+                    <div class="form-group">
+                        <label for="meetingDate">Date:</label>
+                        <input type="date" id="meetingDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="meetingDesc">Meeting Description:</label>
+                        <textarea id="meetingDesc" placeholder="Describe the meeting" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="meetingChair">Meeting Chaired By:</label>
+                        <select id="meetingChair">
+                            <option value="ED & RH">ED & RH</option>
+                            <option value="CGM(TS&HSE)">CGM(TS&HSE)</option>
+                            <option value="CGM(T)">CGM(T)</option>
+                            <option value="CGM(PJ)">CGM(PJ)</option>
+                            <option value="GM(HR)">GM(HR)</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+
+                    <h4>Enter the points of discussion</h4>
+                    <table id="discussionTable">
+                        <thead>
+                            <tr>
+                                <th>Point of Discussion</th>
+                                <th>Target Date</th>
+                                <th>FPR</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><textarea placeholder="Enter discussion point" required></textarea></td>
+                                <td><input type="date" required></td>
+                                <td><input type="text" required></td>
+                                <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="addRow()">Add Discussion Point</button>
+                    <button type="submit">Register Meeting</button>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>IOCL Meeting Booking System © 2024</p>
+    </footer>
 
     <script src="main.js"></script>
 </body>
