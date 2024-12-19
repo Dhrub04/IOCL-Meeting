@@ -28,7 +28,7 @@
                 <!-- Meeting ID -->
                 <label for="meetingIDField">Meeting ID:</label>
                 <input type="text" id="meetingIDField" placeholder="Click to generate Meeting ID" readonly required>
-                <button type="button" id="generateMeetingIDButton" onclick="generateMeetingID()">Generate Meeting ID</button>
+                <button type="button" onclick="generateMeetingID()">Generate Meeting ID</button>
 
                 <!-- Date -->
                 <label for="meetingDate">Meeting Date:</label>
@@ -49,7 +49,7 @@
                 </select>
 
                 <!-- CGM Sub-Role -->
-                <div id="cgmOptions" style="display: none;">
+                <div id="cgmOptions" class="hidden">
                     <label for="cgmSubChair">Select Sub-Role:</label>
                     <select id="cgmSubChair" aria-label="Select Sub-Role for CGM">
                         <option value="TS & HSE">TS & HSE</option>
@@ -72,12 +72,11 @@
                         <tr>
                             <td><textarea placeholder="Enter discussion point" required></textarea></td>
                             <td><input type="date" required></td>
-                            <td><button type="button" class="remove-row-btn" onclick="removeRow(this)">Remove</button></td>
+                            <td><button type="button" onclick="removeRow(this)">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
                 <button type="button" onclick="addRow()">Add Row</button>
-
                 <button type="submit">Register Meeting</button>
             </form>
         </div>

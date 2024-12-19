@@ -19,7 +19,7 @@ body {
     border-top: 6px solid #ff5722;
 }
 
-/* Improved Button Styles */
+/* Button Styles */
 button {
     background-color: #ff5722;
     color: #fff;
@@ -27,40 +27,42 @@ button {
     border: none;
     border-radius: 6px;
     font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s;
 }
 
 button:hover {
     background-color: #e64a19;
 }
 
-/* Form and Input Enhancements */
+/* Input, Select, and Textarea Styles */
 input, select, textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     font-size: 14px;
 }
 
 input:focus, select:focus, textarea:focus {
     border-color: #004a99;
-    outline: none;
     box-shadow: 0 0 5px rgba(0, 74, 153, 0.3);
 }
 
-/* Table Improvements */
+/* Table Styles */
 #discussionTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
+
 #discussionTable th, #discussionTable td {
     padding: 12px;
     text-align: left;
+}
+
+/* Hidden Elements */
+.hidden {
+    display: none;
 }
